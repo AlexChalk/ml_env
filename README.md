@@ -6,3 +6,7 @@ nix build
 nix run
 nix flake update
 ./result/bin/jupyter notebook --no-browser
+
+nix run .#python
+nix run . -- notebook
+nix develop
