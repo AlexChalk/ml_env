@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "bear-classifier"
+name = "ml-env"
 version = "0.1.0"
 description = ""
 authors = ["Alex Chalk <contact@alexchalk.net>"]
