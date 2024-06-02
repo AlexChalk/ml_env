@@ -11,8 +11,6 @@ fastai = "^2.7.15"
 gradio = "^4.32.0"
 watchfiles = "^0.21.0"
 nbdev = "^2.3.23"
-jupyter = "^1.0.0"
-jupyterlab = "^4.2.1"
 numpy = "^1.26.4"
 ipykernel = "^6.29.4"
 
