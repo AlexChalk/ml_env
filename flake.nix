@@ -63,11 +63,16 @@
           };
         };
         jupyter = pkgs.jupyter.override { inherit definitions; };
+        jupyterlab = pkgs.python3.pkgs.jupyterlab;
       in
       {
-        packages = { inherit python jupyter; };
+        packages = { inherit python jupyter jupyterlab; };
         packages.default = jupyter;
         apps.default = {
+          type = "app";
+          program = "${jupyterlab}/bin/jupyter-lab";
+        };
+        apps.jupyter = {
           type = "app";
           program = "${jupyter}/bin/jupyter";
         };
@@ -79,7 +84,7 @@
           buildInputs = [
             python
             jupyter
-            pkgs.python3.pkgs.jupyterlab
+            jupyterlab
           ];
           shellHook = ''
             CUSTOM_NIXSHELL=pythonml ${pkgs.zsh}/bin/zsh; exit

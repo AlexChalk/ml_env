@@ -10,6 +10,7 @@ nix flake update
 n.b. can't install nbextensions on newer versions of jupyter
 (jupyter contrib nbextension install --user)
 
+jupyter-lab: `nix run`; with args: `nix run . -- args`
 nix run .#python
-nix run . -- notebook
+nix run .#jupyter -- notebook
 nix develop
