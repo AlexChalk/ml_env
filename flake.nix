@@ -21,21 +21,28 @@
           preferWheels = false;
           overrides = overrides.withDefaults (final: prev: {
             ruff = prev.ruff.override { preferWheel = true; };
-            fastdownload = prev.fastdownload.overridePythonAttrs (
-              old: {
-                nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
-                  prev.setuptools
-                ];
-              }
-            );
-            fsspec = prev.fsspec.overridePythonAttrs (
-              old: {
-                nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
-                  prev.hatchling
-                  prev.hatch-vcs
-                ];
-              }
-            );
+            fastdownload = prev.fastdownload.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                prev.setuptools
+              ];
+            });
+            fsspec = prev.fsspec.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                prev.hatchling
+                prev.hatch-vcs
+              ];
+            });
+            jupyterlab-rise = prev.jupyterlab-rise.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                final.hatch-nodejs-version
+                final.hatch-jupyter-builder
+              ];
+            });
+            jupyter-highlight-selected-word = prev.jupyter-highlight-selected-word.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                prev.setuptools
+              ];
+            });
           });
         };
         # This name makes it the default kernel, any other (e.g. pythonml) preserves
@@ -44,8 +51,8 @@
           python3 = {
             displayName = "Python ML";
             language = "python";
-            logo32 = "${pkgs.jupyter.sitePackages}/ipykernel/resources/logo-32x32.png";
-            logo64 = "${pkgs.jupyter.sitePackages}/ipykernel/resources/logo-64x64.png";
+            logo32 = "${python.pkgs.ipykernel}/lib/python*/site-packages/ipykernel/resources/logo-32x32.png";
+            logo64 = "${python.pkgs.ipykernel}/lib/python*/site-packages/ipykernel/resources/logo-64x64.png";
             argv = [
               "${python}/bin/python"
               "-m"
