@@ -44,6 +44,12 @@
                 final.pytest
               ];
             });
+            jupyterlab-vim = prev.jupyterlab-vim.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                final.hatch-nodejs-version
+                final.hatch-jupyter-builder
+              ];
+            });
           });
         };
         # This name makes it the default kernel, any other (e.g. pythonml) preserves
