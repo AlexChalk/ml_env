@@ -38,11 +38,6 @@
                 final.hatch-jupyter-builder
               ];
             });
-            jupyter-highlight-selected-word = prev.jupyter-highlight-selected-word.overridePythonAttrs (old: {
-              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
-                prev.setuptools
-              ];
-            });
           });
         };
         # This name makes it the default kernel, any other (e.g. pythonml) preserves
