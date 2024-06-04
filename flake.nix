@@ -19,6 +19,7 @@
         python = mkPoetryEnv {
           projectDir = self;
           preferWheels = false;
+          extraPackages = ps: [ ps.notebook ps.jupyterlab ];
           overrides = overrides.withDefaults (final: prev: {
             ruff = prev.ruff.override { preferWheel = true; };
             fastdownload = prev.fastdownload.overridePythonAttrs (old: {
@@ -36,6 +37,11 @@
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
                 final.hatch-nodejs-version
                 final.hatch-jupyter-builder
+              ];
+            });
+            jupyterlab-server = prev.jupyterlab-server.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                final.pytest
               ];
             });
           });
@@ -57,29 +63,43 @@
             ];
           };
         };
-        jupyter = pkgs.jupyter.override { inherit definitions; };
-        jupyterlab = pkgs.python3.pkgs.jupyterlab;
+        jupyterKernel = pkgs.jupyter-kernel.override { python3 = python; };
+        jupyterPath = jupyterKernel.create { inherit definitions; };
+        # https://github.com/tweag/jupyenv/blob/0c86802aaa3ffd3e48c6f0e7403031c9168a8be2/lib/jupyter.nix#L174
+        jupyter-wrapper = pkgs.runCommand "jupyter-wrapper"
+          { nativeBuildInputs = [ pkgs.makeWrapper ]; }
+          ''
+            mkdir $out && ln -s ${python}/* $out/ && rm $out/bin && mkdir $out/bin
+            for i in ${python}/bin/*; do
+              filename=$(basename $i)
+              ln -s ${python}/bin/$filename $out/bin/$filename
+            done
+            for i in $out/bin/jupyter*; do
+            filename=$(basename $i)
+            wrapProgram $out/bin/$filename \
+              --prefix PATH : ${python}/bin \
+              --set JUPYTER_PATH "${jupyterPath}"
+            done
+          '';
       in
       {
-        packages = { inherit python jupyter jupyterlab; };
-        packages.default = jupyter;
+        packages = { inherit jupyter-wrapper; };
+        packages.default = jupyter-wrapper;
         apps.default = {
           type = "app";
-          program = "${jupyterlab}/bin/jupyter-lab";
+          program = "${jupyter-wrapper}/bin/jupyter-lab";
         };
         apps.jupyter = {
           type = "app";
-          program = "${jupyter}/bin/jupyter";
+          program = "${jupyter-wrapper}/bin/jupyter";
         };
         apps.python = {
           type = "app";
-          program = "${python}/bin/python";
+          program = "${jupyter-wrapper}/bin/python";
         };
         devShells.default = pkgs.mkShell {
           buildInputs = [
-            python
-            jupyter
-            jupyterlab
+            jupyter-wrapper
           ];
           shellHook = ''
             CUSTOM_NIXSHELL=pythonml ${pkgs.zsh}/bin/zsh; exit
