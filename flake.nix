@@ -26,6 +26,7 @@
             numexpr = prev.numexpr.override { preferWheel = true; };
             numba = prev.numba.override { preferWheel = true; };
             opencv-python = prev.opencv-python.override { preferWheel = true; };
+            optree = prev.optree.override { preferWheel = true; };
             pyarrow = prev.pyarrow.override { preferWheel = true; };
             ruff = prev.ruff.override { preferWheel = true; };
             safetensors = prev.safetensors.override { preferWheel = true; };
@@ -74,6 +75,11 @@
               ];
             });
             fastkaggle = prev.fastkaggle.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                prev.setuptools
+              ];
+            });
+            namex = prev.namex.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
                 prev.setuptools
               ];

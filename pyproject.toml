@@ -34,8 +34,9 @@ tables = "*"
 numba = "*"
 timm = "*"
 fastkaggle = "*"
-tfrecord = { extras = ["torch"], version = "*" }
 opencv-python = "*"
+tensorflow = "*"
+gast = "0.5.5"
 
 [virtualenvs]
 create = true
