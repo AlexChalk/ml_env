@@ -27,6 +27,7 @@
             numba = prev.numba.override { preferWheel = true; };
             pyarrow = prev.pyarrow.override { preferWheel = true; };
             ruff = prev.ruff.override { preferWheel = true; };
+            safetensors = prev.safetensors.override { preferWheel = true; };
             tables = prev.tables.override { preferWheel = true; };
             confection = prev.confection.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
@@ -62,6 +63,16 @@
               ];
             });
             ndindex = prev.ndindex.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                prev.setuptools
+              ];
+            });
+            timm = prev.timm.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                prev.pdm-backend
+              ];
+            });
+            fastkaggle = prev.fastkaggle.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
                 prev.setuptools
               ];

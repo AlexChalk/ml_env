@@ -32,6 +32,8 @@ scikit-learn = "*"
 pyarrow = "*"
 tables = "*"
 numba = "*"
+timm = "*"
+fastkaggle = "*"
 
 [virtualenvs]
 create = true
