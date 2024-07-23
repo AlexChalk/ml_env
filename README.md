@@ -1,5 +1,6 @@
 # ml_env
 
+nix shell nixpkgs#python311
 poetry add --lock
 poetry update --lock / poetry lock (--no-update)
 nix build

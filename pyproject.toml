@@ -6,12 +6,12 @@ authors = ["Alex Chalk <contact@alexchalk.net>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "~3.11"
 fastai = "*"
 gradio = "*"
 watchfiles = "*"
 nbdev = "*"
-numpy = "^1.26.4"
+numpy = "*"
 ipykernel = "*"
 ipywidgets = "*"
 jupyterlab-rise = "*"

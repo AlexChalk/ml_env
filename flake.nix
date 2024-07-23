@@ -19,6 +19,7 @@
         python = mkPoetryEnv {
           projectDir = self;
           preferWheels = false;
+          python = pkgs.python311;
           extraPackages = ps: [ ps.notebook ps.jupyterlab ];
           overrides = overrides.withDefaults (final: prev: {
             blosc2 = prev.blosc2.override { preferWheel = true; };
