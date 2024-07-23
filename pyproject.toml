@@ -35,6 +35,7 @@ numba = "*"
 timm = "*"
 fastkaggle = "*"
 tfrecord = { extras = ["torch"], version = "*" }
+opencv-python = "*"
 
 [virtualenvs]
 create = true
