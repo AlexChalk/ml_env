@@ -25,6 +25,7 @@
             blosc2 = prev.blosc2.override { preferWheel = true; };
             numexpr = prev.numexpr.override { preferWheel = true; };
             numba = prev.numba.override { preferWheel = true; };
+            opencv-python = prev.opencv-python.override { preferWheel = true; };
             pyarrow = prev.pyarrow.override { preferWheel = true; };
             ruff = prev.ruff.override { preferWheel = true; };
             safetensors = prev.safetensors.override { preferWheel = true; };
