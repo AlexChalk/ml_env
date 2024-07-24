@@ -1,2 +1,4 @@
 result
 .ipynb_checkpoints
+*/**/*.csv
+*/**/*.tfrec
