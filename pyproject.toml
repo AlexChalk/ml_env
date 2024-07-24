@@ -37,6 +37,7 @@ fastkaggle = "*"
 opencv-python = "*"
 tensorflow = "*"
 gast = "0.5.5"
+torcheval = "*"
 
 [virtualenvs]
 create = true

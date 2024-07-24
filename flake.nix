@@ -31,6 +31,7 @@
             ruff = prev.ruff.override { preferWheel = true; };
             safetensors = prev.safetensors.override { preferWheel = true; };
             tables = prev.tables.override { preferWheel = true; };
+            torcheval = prev.torcheval.override { preferWheel = true; };
             confection = prev.confection.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
                 prev.setuptools
