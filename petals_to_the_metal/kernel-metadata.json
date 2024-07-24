@@ -1,0 +1,16 @@
+{
+  "id": "alexchalk/petals-to-the-metal-submission-01",
+  "title": "Petals to the Metal Submission 01",
+  "code_file": "01.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "keywords": [],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "competitions/tpu-getting-started"
+  ]
+}
