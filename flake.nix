@@ -23,6 +23,7 @@
           extraPackages = ps: [ ps.notebook ps.jupyterlab ];
           overrides = overrides.withDefaults (final: prev: {
             blosc2 = prev.blosc2.override { preferWheel = true; };
+            ffmpy = prev.ffmpy.override { preferWheel = true; };
             numexpr = prev.numexpr.override { preferWheel = true; };
             numba = prev.numba.override { preferWheel = true; };
             opencv-python = prev.opencv-python.override { preferWheel = true; };
