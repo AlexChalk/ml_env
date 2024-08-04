@@ -1,0 +1,16 @@
+{
+  "id": "alexchalk/poisonous-mushrooms-submission-01",
+  "title": "Poisonous Mushrooms Submission 01",
+  "code_file": "01.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "keywords": [],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "competitions/playground-series-s4e8"
+  ]
+}
