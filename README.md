@@ -3,6 +3,7 @@
 nix shell nixpkgs#python311
 nix shell nixpkgs#python311 --command poetry --help
 poetry add --lock package="*"
+`nix shell nixpkgs#python311 --command poetry add --lock "transformers[torch]=*"`
 poetry update --lock / poetry lock (--no-update)
 nix build
 nix run
