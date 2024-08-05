@@ -29,10 +29,13 @@
             opencv-python = prev.opencv-python.override { preferWheel = true; };
             optree = prev.optree.override { preferWheel = true; };
             pyarrow = prev.pyarrow.override { preferWheel = true; };
+            rpds-py = prev.rpds-py.override { preferWheel = true; };
             ruff = prev.ruff.override { preferWheel = true; };
             safetensors = prev.safetensors.override { preferWheel = true; };
             tables = prev.tables.override { preferWheel = true; };
+            tokenizers = prev.tokenizers.override { preferWheel = true; };
             torcheval = prev.torcheval.override { preferWheel = true; };
+            lxml = prev.lxml.override { preferWheel = true; };
             confection = prev.confection.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
                 prev.setuptools

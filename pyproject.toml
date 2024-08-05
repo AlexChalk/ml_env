@@ -37,7 +37,7 @@ opencv-python = "*"
 tensorflow = "*"
 gast = "0.5.5"
 torcheval = "*"
-rpds-py = "0.19.0"
+transformers = {version = "*", extras = ["torch"]}
 
 [virtualenvs]
 create = true
