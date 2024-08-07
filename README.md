@@ -10,6 +10,8 @@ nix run
 nix flake update
 ./result/bin/jupyter notebook --no-browser
 
+git lfs track "*.psd"
+
 n.b. can't install nbextensions on newer versions of jupyter
 (jupyter contrib nbextension install --user)
 
