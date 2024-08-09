@@ -38,6 +38,7 @@ tensorflow = "*"
 gast = "0.5.5"
 torcheval = "*"
 transformers = {version = "*", extras = ["torch"]}
+py7zr = "*"
 
 [virtualenvs]
 create = true
