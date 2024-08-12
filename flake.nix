@@ -18,24 +18,10 @@
         inherit (poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }) mkPoetryEnv overrides;
         python = mkPoetryEnv {
           projectDir = self;
-          preferWheels = false;
+          preferWheels = true;
           python = pkgs.python311;
           extraPackages = ps: [ ps.notebook ps.jupyterlab ];
           overrides = overrides.withDefaults (final: prev: {
-            blosc2 = prev.blosc2.override { preferWheel = true; };
-            ffmpy = prev.ffmpy.override { preferWheel = true; };
-            numexpr = prev.numexpr.override { preferWheel = true; };
-            numba = prev.numba.override { preferWheel = true; };
-            opencv-python = prev.opencv-python.override { preferWheel = true; };
-            optree = prev.optree.override { preferWheel = true; };
-            pyarrow = prev.pyarrow.override { preferWheel = true; };
-            rpds-py = prev.rpds-py.override { preferWheel = true; };
-            ruff = prev.ruff.override { preferWheel = true; };
-            safetensors = prev.safetensors.override { preferWheel = true; };
-            tables = prev.tables.override { preferWheel = true; };
-            tokenizers = prev.tokenizers.override { preferWheel = true; };
-            torcheval = prev.torcheval.override { preferWheel = true; };
-            lxml = prev.lxml.override { preferWheel = true; };
             confection = prev.confection.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
                 prev.setuptools
