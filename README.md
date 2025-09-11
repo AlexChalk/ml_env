@@ -1,10 +1,12 @@
 # ml_env
 
-nix shell nixpkgs#python311
-nix shell nixpkgs#python311 --command poetry --help
-poetry add --lock package="*"
-`nix shell nixpkgs#python311 --command poetry add --lock "transformers[torch]=*"`
+nix shell nixpkgs#python313
+nix shell nixpkgs#python313 --command uv --help
+uv add "package" --no-sync --raw
+(--no-sync prevents venv creation/modification, --raw adds as specified, here without version pinning)
+`nix shell nixpkgs#python313 --command uv add "transformers[torch]" --no-sync --raw`
 poetry update --lock / poetry lock (--no-update)
+uv lock --upgrade / uv lock (no version update)
 nix build
 nix run
 nix flake update

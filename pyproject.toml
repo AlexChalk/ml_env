@@ -2,7 +2,7 @@
 name = "ml-env"
 version = "0.1.0"
 description = ""
-authors = ["Alex Chalk <contact@alexchalk.net>"]
+authors = [{ name = "Alex Chalk", email = "contact@alexchalk.net" }]
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -41,15 +41,17 @@ dependencies = [
   "diffusers",
 ]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-
 [dependency-groups]
 dev = [
   "ruff",
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ml_env_wheel_dummy"]
 
 [tool.ruff]
 exclude = [
