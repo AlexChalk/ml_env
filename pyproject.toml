@@ -39,6 +39,7 @@ dependencies = [
   "transformers[torch]",
   "py7zr",
   "diffusers",
+  "datasets",
 ]
 
 [dependency-groups]
