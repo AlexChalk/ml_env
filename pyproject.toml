@@ -1,10 +1,10 @@
 [project]
-name = "ml-env"
+name="ml_env"
 version = "0.1.0"
 description = ""
 authors = [{ name = "Alex Chalk", email = "contact@alexchalk.net" }]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python=">=3.13"
 dependencies = [
   "fastai",
   "gradio",
