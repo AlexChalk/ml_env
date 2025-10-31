@@ -42,6 +42,12 @@ dependencies = [
   "datasets",
 ]
 
+[tool.uv.sources]
+miniai = { path = "./miniai", editable = true }
+
+[tool.uv.workspace]
+members = ["miniai"]
+
 [dependency-groups]
 dev = [
   "ruff",
