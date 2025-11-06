@@ -123,7 +123,7 @@ class ProgressCB(Callback):
 class with_cbs:
     def __init__(self, nm): self.nm = nm
     def __call__(self, f):
-        def _f(o, *args, **kwargs):
+        def _f(o, *args, **kwargs): # when used as decorator, _f returned by __call__ takes args f would have taken. so o == self (of class where decorator is used).
             try:
                 o.callback(f'before_{self.nm}')
                 f(o, *args, **kwargs)
