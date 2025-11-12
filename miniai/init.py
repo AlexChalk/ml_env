@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['clean_ipython_hist', 'clean_tb', 'clean_mem', 'BatchTransformCB', 'GeneralRelu', 'plot_func', 'init_weights',
-           'lsuv_init', 'conv', 'get_model']
+           'lsuv_init', 'LsuvInitCallback', 'conv', 'get_model']
 
 # %% ../nbs/11_initializing.ipynb 2
 import pickle,gzip,math,os,time,shutil,torch,matplotlib as mpl,numpy as np,matplotlib.pyplot as plt
@@ -58,7 +58,7 @@ def clean_mem():
     gc.collect()
     torch.cuda.empty_cache()
 
-# %% ../nbs/11_initializing.ipynb 82
+# %% ../nbs/11_initializing.ipynb 86
 class BatchTransformCB(Callback):
     def __init__(self, tfm, on_train=True, on_val=True): fc.store_attr()
 
@@ -66,7 +66,7 @@ class BatchTransformCB(Callback):
         if (self.on_train and learn.training) or (self.on_val and not learn.training):
             learn.batch = self.tfm(learn.batch)
 
-# %% ../nbs/11_initializing.ipynb 90
+# %% ../nbs/11_initializing.ipynb 94
 class GeneralRelu(nn.Module):
     def __init__(self, leak=None, sub=None, maxv=None):
         super().__init__()
@@ -78,7 +78,7 @@ class GeneralRelu(nn.Module):
         if self.maxv is not None: x.clamp_max_(self.maxv)
         return x
 
-# %% ../nbs/11_initializing.ipynb 91
+# %% ../nbs/11_initializing.ipynb 95
 def plot_func(f, start=-5., end=5., steps=100):
     x = torch.linspace(start, end, steps)
     plt.plot(x, f(x))
@@ -86,11 +86,11 @@ def plot_func(f, start=-5., end=5., steps=100):
     plt.axhline(y=0, color='k', linewidth=0.7)
     plt.axvline(x=0, color='k', linewidth=0.7)
 
-# %% ../nbs/11_initializing.ipynb 95
+# %% ../nbs/11_initializing.ipynb 99
 def init_weights(m, leaky=0.):
     if isinstance(m, (nn.Conv1d,nn.Conv2d,nn.Conv3d)): init.kaiming_normal_(m.weight, a=leaky)
 
-# %% ../nbs/11_initializing.ipynb 104
+# %% ../nbs/11_initializing.ipynb 108
 def _lsuv_stats(hook, mod, inp, outp):
     acts = to_cpu(outp)
     hook.mean = acts.mean()
@@ -104,7 +104,22 @@ def lsuv_init(model, m, m_in, xb):
             m_in.weight.data /= h.std
     h.remove()
 
-# %% ../nbs/11_initializing.ipynb 115
+# %% ../nbs/11_initializing.ipynb 109
+class LsuvInitCallback(Callback):
+    def __init__(self, m_out_class, m_in_class):
+        fc.store_attr()
+        super().__init__()
+    
+    def before_fit(self, learn):
+        model = learn.model
+        outs = [o for o in model.modules() if isinstance(o, self.m_out_class)]
+        ins = [o for o in model.modules() if isinstance(o, self.m_in_class)]
+        xb,_ = next(iter(learn.dls.train))
+        xb.to(def_device)
+
+        for ms in zip(outs,ins): lsuv_init(model, *ms, xb.to(def_device))
+
+# %% ../nbs/11_initializing.ipynb 122
 def conv(ni, nf, ks=3, stride=2, act=nn.ReLU, norm=None, bias=None):
     if bias is None: bias = not isinstance(norm, (nn.BatchNorm1d,nn.BatchNorm2d,nn.BatchNorm3d))
     layers = [nn.Conv2d(ni, nf, stride=stride, kernel_size=ks, padding=ks//2, bias=bias)]
@@ -112,7 +127,7 @@ def conv(ni, nf, ks=3, stride=2, act=nn.ReLU, norm=None, bias=None):
     if act: layers.append(act())
     return nn.Sequential(*layers)
 
-# %% ../nbs/11_initializing.ipynb 116
+# %% ../nbs/11_initializing.ipynb 123
 def get_model(act=nn.ReLU, nfs=None, norm=None):
     if nfs is None: nfs = [1,8,16,32,64]
     layers = [conv(nfs[i], nfs[i+1], act=act, norm=norm) for i in range(len(nfs)-1)]
