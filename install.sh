@@ -4,6 +4,8 @@
 # Pytorch (Vast) Template
 #ssh -p 46974 root@213.181.123.90 -L 8080:localhost:8080
 
+# rsync -avz -e "ssh -p 53529" --exclude-from='/home/adc/ml_env/.rsyncignore' /home/adc/ml_env root@185.62.108.226:/workspace/ml_env
+
 export PYTHON_VERSION=3.12
 export PYTORCH_CUDA_VERSION=11.8
 eval "$(mamba shell hook --shell bash)"

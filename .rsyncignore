@@ -1,0 +1,12 @@
+.git
+*.pth
+*.zip
+*.gz
+*.7z
+*.model
+*.pkl
+result
+.ipynb_checkpoints
+*.csv
+*.tfrec
+*model.safetensors
