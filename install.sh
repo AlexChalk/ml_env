@@ -6,6 +6,10 @@
 
 # rsync -avz -e "ssh -p 53529" --exclude-from='/home/adc/ml_env/.rsyncignore' /home/adc/ml_env root@185.62.108.226:/workspace/ml_env
 
+# rsync -avz -e "ssh -p 53529" root@185.62.108.226:/workspace/ml_env/miniai /home/adc/ml_env/miniai
+# rsync -avz -e "ssh -p 53529" root@185.62.108.226:/workspace/ml_env/nbs/14_augment.ipynb /home/adc/ml_env/nbs/14_augment.ipynb
+# rsync -avz -e "ssh -p 53529" root@185.62.108.226:/workspace/ml_env/nbs/models/data_aug.pkl /home/adc/ml_env/nbs/models/data_aug.pkl
+
 export PYTHON_VERSION=3.12
 export PYTORCH_CUDA_VERSION=11.8
 eval "$(mamba shell hook --shell bash)"
