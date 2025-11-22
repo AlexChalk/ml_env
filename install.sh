@@ -4,11 +4,11 @@
 # Pytorch (Vast) Template
 #ssh -p 46974 root@213.181.123.90 -L 8080:localhost:8080
 
-# rsync -avz -e "ssh -p 53529" --exclude-from='/home/adc/ml_env/.rsyncignore' /home/adc/ml_env/ root@185.62.108.226:/workspace/ml_env
+# rsync -avz -e "ssh -p 46441" --exclude-from='/home/adc/ml_env/.rsyncignore' /home/adc/ml_env/ root@38.247.78.2:/workspace/ml_env
 
-# rsync -avz -e "ssh -p 53529" root@185.62.108.226:/workspace/ml_env/miniai /home/adc/ml_env/miniai
-# rsync -avz -e "ssh -p 53529" root@185.62.108.226:/workspace/ml_env/nbs/14_augment.ipynb /home/adc/ml_env/nbs/14_augment.ipynb
-# rsync -avz -e "ssh -p 53529" root@185.62.108.226:/workspace/ml_env/nbs/models/data_aug.pkl /home/adc/ml_env/nbs/models/data_aug.pkl
+# rsync -avz -e "ssh -p 46441" root@38.247.78.2:/workspace/ml_env/miniai/ /home/adc/ml_env/miniai
+# rsync -avz -e "ssh -p 46441" root@38.247.78.2:/workspace/ml_env/nbs/14_augment.ipynb /home/adc/ml_env/nbs/14_augment.ipynb
+# rsync -avz -e "ssh -p 46441" root@38.247.78.2:/workspace/ml_env/nbs/models/ /home/adc/ml_env/nbs/models
 
 export PYTHON_VERSION=3.12
 export PYTORCH_CUDA_VERSION=12.4
@@ -19,5 +19,3 @@ mamba install -y -c fastai -c pytorch -c nvidia -c conda-forge pytorch pytorch-c
 pip install -Uq torcheval
 pip install ./ml_env/miniai
 python -m ipykernel install --user --name ml --display-name "Python (ML)"
-
-
