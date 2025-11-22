@@ -4,7 +4,7 @@
 # Pytorch (Vast) Template
 #ssh -p 46974 root@213.181.123.90 -L 8080:localhost:8080
 
-# rsync -avz -e "ssh -p 53529" --exclude-from='/home/adc/ml_env/.rsyncignore' /home/adc/ml_env root@185.62.108.226:/workspace/ml_env
+# rsync -avz -e "ssh -p 53529" --exclude-from='/home/adc/ml_env/.rsyncignore' /home/adc/ml_env/ root@185.62.108.226:/workspace/ml_env
 
 # rsync -avz -e "ssh -p 53529" root@185.62.108.226:/workspace/ml_env/miniai /home/adc/ml_env/miniai
 # rsync -avz -e "ssh -p 53529" root@185.62.108.226:/workspace/ml_env/nbs/14_augment.ipynb /home/adc/ml_env/nbs/14_augment.ipynb
@@ -17,4 +17,7 @@ mamba create -y -n ml -c fastai -c pytorch -c nvidia -c conda-forge python="$PYT
 mamba activate ml
 mamba install -y -c fastai -c pytorch -c nvidia -c conda-forge pytorch pytorch-cuda="$PYTORCH_CUDA_VERSION" rise opencv pytables fastai gradio watchfiles nbdev numpy ipykernel ipywidgets pandas matplotlib lxml beautifulsoup4 html5lib openpyxl requests sqlalchemy seaborn scipy statsmodels patsy scikit-learn pyarrow numba timm fastkaggle gast transformers[torch] py7zr diffusers datasets # tensorflow
 pip install -Uq torcheval
+pip install ./ml_env/miniai
 python -m ipykernel install --user --name ml --display-name "Python (ML)"
+
+
