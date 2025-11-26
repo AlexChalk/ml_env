@@ -46,6 +46,6 @@ class RecorderCB(Callback):
             plt.legend()
             plt.show()
 
-# %% ../nbs/12_accel_sgd.ipynb 54
+# %% ../nbs/12_accel_sgd.ipynb 59
 class EpochSchedCB(BaseSchedCB):
     def after_epoch(self, learn): self._step(learn)
