@@ -40,6 +40,7 @@ dependencies = [
   "py7zr",
   "diffusers",
   "datasets",
+  "accelerate",
 ]
 
 [tool.uv.sources]
