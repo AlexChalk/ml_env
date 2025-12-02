@@ -41,6 +41,7 @@ dependencies = [
   "diffusers",
   "datasets",
   "accelerate",
+  "einops",
 ]
 
 [tool.uv.sources]
