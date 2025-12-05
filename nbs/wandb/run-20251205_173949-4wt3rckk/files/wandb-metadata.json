@@ -1,0 +1,34 @@
+{
+  "os": "Linux-6.8.0-60-generic-x86_64-with-glibc2.39",
+  "python": "CPython 3.12.12",
+  "startedAt": "2025-12-05T17:39:49.709622Z",
+  "program": "<python with no main file>",
+  "email": "contact@alexchalk.net",
+  "root": "/workspace/ml_env/nbs",
+  "host": "c01e36ee73f8",
+  "executable": "/venv/ml/bin/python",
+  "cpu_count": 16,
+  "cpu_count_logical": 32,
+  "gpu": "NVIDIA RTX A4000",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "107374182400",
+      "used": "24645222400"
+    }
+  },
+  "memory": {
+    "total": "540658970624"
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA RTX A4000",
+      "memoryTotal": "17171480576",
+      "cudaCores": 6144,
+      "architecture": "Ampere",
+      "uuid": "GPU-0a7df6af-6a2d-df52-0f82-ec6a46f69ee7"
+    }
+  ],
+  "cudaVersion": "12.8",
+  "writerId": "aj6oqulc6tgoxnbkscl7ladq72lgjb6g"
+}

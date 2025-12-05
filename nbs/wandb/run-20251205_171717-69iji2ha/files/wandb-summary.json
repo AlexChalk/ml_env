@@ -1,0 +1,1 @@
+{"_timestamp":1.7649562968203518e+09,"train_loss":0.028,"val_loss":0.029,"samples":{"format":"png","width":1200,"height":1200,"_type":"image-file","sha256":"1bda7eba7932fe19443983a131a2f031fc417d33029771522cda0ad00d9698c8","size":78864,"path":"media/images/samples_1878_1bda7eba7932fe194439.png"},"_wandb":{"runtime":1350},"_runtime":1350,"_step":3756,"loss":0.024571329355239868}

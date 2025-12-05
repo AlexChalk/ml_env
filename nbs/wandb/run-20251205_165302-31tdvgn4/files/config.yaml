@@ -1,0 +1,72 @@
+_wandb:
+    value:
+        cli_version: 0.23.0
+        e:
+            mmkmjqvd5acrwbmny7eaorbobf62xbjx:
+                cpu_count: 16
+                cpu_count_logical: 32
+                cudaVersion: "12.8"
+                disk:
+                    /:
+                        total: "107374182400"
+                        used: "24642539520"
+                email: contact@alexchalk.net
+                executable: /venv/ml/bin/python
+                gpu: NVIDIA RTX A4000
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 6144
+                      memoryTotal: "17171480576"
+                      name: NVIDIA RTX A4000
+                      uuid: GPU-0a7df6af-6a2d-df52-0f82-ec6a46f69ee7
+                host: c01e36ee73f8
+                memory:
+                    total: "540658970624"
+                os: Linux-6.8.0-60-generic-x86_64-with-glibc2.39
+                program: <python with no main file>
+                python: CPython 3.12.12
+                root: /workspace/ml_env/nbs
+                startedAt: "2025-12-05T16:53:02.911215Z"
+                writerId: mmkmjqvd5acrwbmny7eaorbobf62xbjx
+        m: []
+        python_version: 3.12.12
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+                - 83
+                - 105
+            "2":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+                - 83
+                - 105
+            "3":
+                - 2
+                - 16
+            "4": 3.12.12
+            "5": 0.23.0
+            "6": 4.57.3
+            "8":
+                - 1
+            "12": 0.23.0
+            "13": linux-x86_64
+comments:
+    value: default unet logging test
+epochs:
+    value: 10
+lr:
+    value: 0.001
