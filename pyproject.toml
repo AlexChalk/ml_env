@@ -43,6 +43,7 @@ dependencies = [
   "accelerate",
   "einops",
   "wandb",
+  "pytorch-fid",
 ]
 
 [tool.uv.sources]
