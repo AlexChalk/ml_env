@@ -4,7 +4,6 @@
 *.gz
 *.7z
 *.model
-*.pkl
 result
 .ipynb_checkpoints
 *.csv
