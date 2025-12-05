@@ -42,6 +42,7 @@ dependencies = [
   "datasets",
   "accelerate",
   "einops",
+  "wandb",
 ]
 
 [tool.uv.sources]
