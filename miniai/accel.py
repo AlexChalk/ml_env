@@ -30,7 +30,7 @@ from .augment import *
 class MixedPrecision(TrainCB):
     order = DeviceCB.order+10
     
-    def before_fit(self, learn): self.scaler = torch.cuda.amp.GradScaler()
+    def before_fit(self, learn): self.scaler = torch.amp.GradScaler('cuda')
 
     def before_batch(self, learn):
         self.autocast = torch.autocast("cuda", dtype=torch.float16)
