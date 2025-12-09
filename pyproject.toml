@@ -44,6 +44,7 @@ dependencies = [
   "einops",
   "wandb",
   "pytorch-fid",
+  "k-diffusion",
 ]
 
 [tool.uv.sources]
