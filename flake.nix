@@ -1,5 +1,5 @@
 {
-  description = "Application packaged using poetry2nix";
+  description = "Application packaged using uv2nix";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -42,18 +42,23 @@
         python = pkgs.python313;
 
         cudaLibs = [
+          pkgs.cudaPackages.cuda_cccl
           pkgs.cudaPackages.cuda_cudart
           pkgs.cudaPackages.cuda_cupti
+          pkgs.cudaPackages.cuda_nvcc
+          pkgs.cudaPackages.cuda_nvml_dev
           pkgs.cudaPackages.cuda_nvrtc
+          pkgs.cudaPackages.cuda_nvtx
+          pkgs.cudaPackages.cuda_profiler_api
           pkgs.cudaPackages.cudnn
-          pkgs.cudaPackages.cusparselt
-          pkgs.cudaPackages.cutensor
           pkgs.cudaPackages.libcublas
           pkgs.cudaPackages.libcufft
           pkgs.cudaPackages.libcufile
           pkgs.cudaPackages.libcurand
           pkgs.cudaPackages.libcusolver
           pkgs.cudaPackages.libcusparse
+          pkgs.cudaPackages.libcusparse_lt
+          pkgs.cudaPackages.libcutensor
           pkgs.cudaPackages.nccl
           pkgs.rdma-core
         ];
@@ -73,6 +78,10 @@
           });
           torch = prev.torch.overrideAttrs (old: {
             buildInputs = (old.buildInputs or [ ]) ++ cudaLibs;
+            autoPatchelfIgnoreMissingDeps = (old.autoPatchelfIgnoreMissingDeps or [ ]) ++ [
+              "libcuda.so.1"
+              "libnvrtc.so"
+            ];
           });
           torch-xla = prev.torch-xla.overrideAttrs (old: {
             buildInputs = (old.buildInputs or [ ]) ++ cudaLibs;
