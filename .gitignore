@@ -1,6 +1,7 @@
 result
 .ipynb_checkpoints
 ml_env.egg-info
+*/**/*.JPEG
 */**/*.csv
 */**/*.tfrec
 */**/model.safetensors
