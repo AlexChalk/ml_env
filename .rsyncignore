@@ -5,6 +5,7 @@
 *.7z
 *.model
 result
+nbs/data
 .ipynb_checkpoints
 *.csv
 *.tfrec
