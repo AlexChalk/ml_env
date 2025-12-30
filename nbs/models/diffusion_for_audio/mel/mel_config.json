@@ -1,0 +1,11 @@
+{
+  "_class_name": "Mel",
+  "_diffusers_version": "0.35.2",
+  "hop_length": 512,
+  "n_fft": 2048,
+  "n_iter": 32,
+  "sample_rate": 22050,
+  "top_db": 80,
+  "x_res": 256,
+  "y_res": 256
+}

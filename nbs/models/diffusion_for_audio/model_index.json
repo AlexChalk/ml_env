@@ -1,0 +1,21 @@
+{
+  "_class_name": "AudioDiffusionPipeline",
+  "_diffusers_version": "0.35.2",
+  "_name_or_path": "teticio/audio-diffusion-instrumental-hiphop-256",
+  "mel": [
+    "diffusers",
+    "Mel"
+  ],
+  "scheduler": [
+    "diffusers",
+    "DDPMScheduler"
+  ],
+  "unet": [
+    "diffusers",
+    "UNet2DModel"
+  ],
+  "vqvae": [
+    null,
+    null
+  ]
+}
