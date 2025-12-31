@@ -83,26 +83,6 @@
               "libnvrtc.so"
             ];
           });
-          torchaudio = prev.torchaudio.overrideAttrs (old: {
-            buildInputs = (old.buildInputs or [ ]) ++ cudaLibs ++ [
-              pkgs.sox
-              pkgs.ffmpeg_4
-              pkgs.ffmpeg_6
-            ];
-            autoPatchelfIgnoreMissingDeps = (old.autoPatchelfIgnoreMissingDeps or [ ]) ++ [
-              "libcuda.so.1"
-              "libnvrtc.so"
-              # Ignore FFmpeg 5 libraries (not available in nixpkgs)
-              "libavutil.so.57"
-              "libavcodec.so.59"
-              "libavformat.so.59"
-              "libavdevice.so.59"
-              "libavfilter.so.8"
-            ];
-            postFixup = ''
-              addAutoPatchelfSearchPath "${final.torch}"
-            '';
-          });
           torch-xla = prev.torch-xla.overrideAttrs (old: {
             buildInputs = (old.buildInputs or [ ]) ++ cudaLibs;
             postFixup = ''

@@ -45,8 +45,6 @@ dependencies = [
   "wandb",
   "pytorch-fid",
   "k-diffusion",
-  "torchaudio",
-  "librosa",
 ]
 
 [tool.uv.sources]
