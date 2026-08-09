@@ -29,7 +29,7 @@ dependencies = [
   "scikit-learn",
   "pyarrow",
   "tables",
-  "numba",
+  "numba>=0.62", # temp pin to stop numpy demanding old numba
   "timm",
   "fastkaggle",
   "opencv-python",
@@ -39,7 +39,7 @@ dependencies = [
   "transformers[torch]",
   "py7zr",
   "diffusers",
-  "datasets",
+  "datasets>=5", # temp pin to stop fsspec demanding old numba
   "accelerate",
   "einops",
   "wandb",

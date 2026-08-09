@@ -41,61 +41,77 @@
 
         python = pkgs.python313;
 
-        cudaLibs = [
-          pkgs.cudaPackages.cuda_cccl
-          pkgs.cudaPackages.cuda_cudart
-          pkgs.cudaPackages.cuda_cupti
-          pkgs.cudaPackages.cuda_nvcc
-          pkgs.cudaPackages.cuda_nvml_dev
-          pkgs.cudaPackages.cuda_nvrtc
-          pkgs.cudaPackages.cuda_nvtx
-          pkgs.cudaPackages.cuda_profiler_api
-          pkgs.cudaPackages.cudnn
-          pkgs.cudaPackages.libcublas
-          pkgs.cudaPackages.libcufft
-          pkgs.cudaPackages.libcufile
-          pkgs.cudaPackages.libcurand
-          pkgs.cudaPackages.libcusolver
-          pkgs.cudaPackages.libcusparse
-          pkgs.cudaPackages.libcusparse_lt
-          pkgs.cudaPackages.libcutensor
-          pkgs.cudaPackages.nccl
+        systemLibs = [
           pkgs.rdma-core
+          pkgs.ucx
+          pkgs.libfabric
+          pkgs.pmix
+          pkgs.mpi
         ];
 
-        pyprojectOverrides = final: prev: {
-          numba = prev.numba.overrideAttrs (old: {
-            buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.tbb_2022 ];
-          });
-          nvidia-cufile-cu12 = prev.nvidia-cufile-cu12.overrideAttrs (old: {
-            buildInputs = (old.buildInputs or [ ]) ++ cudaLibs;
-          });
-          nvidia-cusparse-cu12 = prev.nvidia-cusparse-cu12.overrideAttrs (old: {
-            buildInputs = (old.buildInputs or [ ]) ++ cudaLibs;
-          });
-          nvidia-cusolver-cu12 = prev.nvidia-cusolver-cu12.overrideAttrs (old: {
-            buildInputs = (old.buildInputs or [ ]) ++ cudaLibs;
-          });
-          torch = prev.torch.overrideAttrs (old: {
-            buildInputs = (old.buildInputs or [ ]) ++ cudaLibs;
-            autoPatchelfIgnoreMissingDeps = (old.autoPatchelfIgnoreMissingDeps or [ ]) ++ [
-              "libcuda.so.1"
-              "libnvrtc.so"
-            ];
-          });
-          torch-xla = prev.torch-xla.overrideAttrs (old: {
-            buildInputs = (old.buildInputs or [ ]) ++ cudaLibs;
-            postFixup = ''
-              addAutoPatchelfSearchPath "${final.torch}"
-            '';
-          });
-          torchvision = prev.torchvision.overrideAttrs (old: {
-            buildInputs = (old.buildInputs or [ ]) ++ cudaLibs;
-            postFixup = ''
-              addAutoPatchelfSearchPath "${final.torch}"
-            '';
-          });
-        };
+        pyprojectOverrides = final: prev:
+          let
+            searchPaths = ps: lib.concatMapStrings
+              (p: ''
+                addAutoPatchelfSearchPath "${p}"
+              '')
+              ps;
+
+            cudaWheelSearchPaths = searchPaths (with final; [
+              nvidia-cublas
+              nvidia-cuda-cupti
+              nvidia-cuda-nvrtc
+              nvidia-cuda-runtime
+              nvidia-cudnn-cu13
+              nvidia-cufft
+              nvidia-cufile
+              nvidia-curand
+              nvidia-cusolver
+              nvidia-cusparse
+              nvidia-cusparselt-cu13
+              nvidia-nccl-cu13
+              nvidia-nvjitlink
+              nvidia-nvshmem-cu13
+              nvidia-nvtx
+            ]);
+          in
+          {
+            numba = prev.numba.overrideAttrs (old: {
+              buildInputs = (old.buildInputs or [ ]) ++ [
+                pkgs.tbb_2022
+                pkgs.stdenv.cc.cc.lib
+              ];
+            });
+            nvidia-cufile = prev.nvidia-cufile.overrideAttrs (old: {
+              buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.rdma-core ];
+            });
+            nvidia-cusparse = prev.nvidia-cusparse.overrideAttrs (old: {
+              postFixup = (old.postFixup or "") + searchPaths [ final.nvidia-nvjitlink ];
+            });
+            nvidia-cusolver = prev.nvidia-cusolver.overrideAttrs (old: {
+              postFixup = (old.postFixup or "") + searchPaths (with final; [ nvidia-nvjitlink nvidia-cusparse nvidia-cublas ]);
+            });
+            nvidia-nvshmem-cu13 = prev.nvidia-nvshmem-cu13.overrideAttrs (old: {
+              buildInputs = (old.buildInputs or [ ]) ++ systemLibs;
+            });
+            torch = prev.torch.overrideAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.autoAddDriverRunpath ];
+              buildInputs = (old.buildInputs or [ ]) ++ systemLibs;
+              autoPatchelfIgnoreMissingDeps = (old.autoPatchelfIgnoreMissingDeps or [ ]) ++ [
+                "libcuda.so.1"
+              ];
+              postFixup = (old.postFixup or "") + cudaWheelSearchPaths;
+            });
+            torch-xla = prev.torch-xla.overrideAttrs (old: {
+              buildInputs = (old.buildInputs or [ ]) ++ systemLibs;
+              postFixup = (old.postFixup or "") + searchPaths [ final.torch ];
+            });
+            torchvision = prev.torchvision.overrideAttrs
+              (old: {
+                buildInputs = (old.buildInputs or [ ]) ++ systemLibs;
+                postFixup = (old.postFixup or "") + searchPaths [ final.torch ];
+              });
+          };
 
         pythonSet =
           (pkgs.callPackage pyproject-nix.build.packages {
@@ -133,21 +149,18 @@
         jupyterKernel = pkgs.jupyter-kernel.override { python3 = pythonEnv; };
         jupyterPath = jupyterKernel.create { inherit definitions; };
         # https://github.com/tweag/jupyenv/blob/0c86802aaa3ffd3e48c6f0e7403031c9168a8be2/lib/jupyter.nix#L174
-        jupyter-wrapper = pkgs.runCommand "jupyter-wrapper"
-          { nativeBuildInputs = [ pkgs.makeWrapper ]; }
-          ''
-            mkdir $out && ln -s ${pythonEnv}/* $out/ && rm $out/bin && mkdir $out/bin
-            for i in ${pythonEnv}/bin/*; do
-              filename=$(basename $i)
-              ln -s ${pythonEnv}/bin/$filename $out/bin/$filename
-            done
+        jupyter-wrapper = pkgs.symlinkJoin {
+          name = "jupyter-wrapper";
+          paths = [ pythonEnv ];
+          nativeBuildInputs = [ pkgs.makeWrapper ];
+          postBuild = ''
             for i in $out/bin/jupyter*; do
-            filename=$(basename $i)
-            wrapProgram $out/bin/$filename \
-              --prefix PATH : ${pythonEnv}/bin \
-              --set JUPYTER_PATH "${jupyterPath}"
+              wrapProgram "$i" \
+                --prefix PATH : ${pythonEnv}/bin \
+                --set JUPYTER_PATH "${jupyterPath}"
             done
           '';
+        };
       in
       {
         packages = { inherit jupyter-wrapper; };
@@ -187,3 +200,5 @@
       }
     );
 }
+
+
